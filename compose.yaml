@@ -1,9 +1,10 @@
+version: '3.8'
 services:
   postgres:
-    image: 'postgres:latest'
-    environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+    image: postgres:16.1-alpine3.19
     ports:
-      - '5432'
+      - '1354:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
