@@ -7,7 +7,6 @@ import ru.shutov.itone.tasktracker.enums.Priority;
 import ru.shutov.itone.tasktracker.enums.Status;
 import ru.shutov.itone.tasktracker.enums.TaskType;
 
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
