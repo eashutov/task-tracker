@@ -8,13 +8,15 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import ru.shutov.itone.tasktracker.model.BaseEntity;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User extends BaseEntity {
     @Column(name = "username", unique = true, nullable = false)
     @NotBlank
@@ -27,14 +29,14 @@ public class User extends BaseEntity {
     private String lastName;
 
     @OneToMany(mappedBy = "author")
-    private Set<Task> authoredTasks;
+    private List<Task> authoredTasks;
 
     @OneToMany(mappedBy = "assignee")
-    private Set<Task> assignedTasks;
+    private List<Task> assignedTasks;
 
     @OneToMany(mappedBy = "author")
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
     @OneToMany(mappedBy = "creator")
-    private Set<Desk> desks;
+    private List<Desk> desks;
 }

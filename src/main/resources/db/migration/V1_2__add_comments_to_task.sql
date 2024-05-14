@@ -1,0 +1,1 @@
+alter table comments add column task uuid references tasks (id) on delete cascade on update cascade;

@@ -1,18 +1,18 @@
 package ru.shutov.itone.tasktracker.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import ru.shutov.itone.tasktracker.model.NamedEntity;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "cols")
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Col extends NamedEntity {
     @ManyToOne
     @JoinColumn(name = "desk", referencedColumnName = "id", nullable = false)
@@ -22,5 +22,5 @@ public class Col extends NamedEntity {
     private Integer position;
 
     @OneToMany(mappedBy = "col")
-    private Set<Task> tasks;
+    private List<Task> tasks;
 }
