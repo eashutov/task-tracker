@@ -2,17 +2,14 @@ package ru.shutov.itone.tasktracker.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import ru.shutov.itone.tasktracker.dto.get.CompleteTaskDto;
 import ru.shutov.itone.tasktracker.dto.get.TaskDto;
 import ru.shutov.itone.tasktracker.dto.patch.TaskPatchDto;
 import ru.shutov.itone.tasktracker.dto.post.TaskPostDto;
 import ru.shutov.itone.tasktracker.entity.Col;
 import ru.shutov.itone.tasktracker.entity.Task;
-import ru.shutov.itone.tasktracker.entity.User;
 import ru.shutov.itone.tasktracker.repository.ColRepository;
 import ru.shutov.itone.tasktracker.repository.TaskRepository;
-import ru.shutov.itone.tasktracker.repository.UserRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +20,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public abstract class TaskMapper {
     protected ColRepository colRepository;
-    protected UserRepository userRepository;
     protected TaskRepository taskRepository;
 
     public abstract TaskDto toDto(Task task);

@@ -1,7 +1,6 @@
 package ru.shutov.itone.tasktracker.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 import ru.shutov.itone.tasktracker.dto.get.UserDto;
 import ru.shutov.itone.tasktracker.dto.post.UserPostDto;
 import ru.shutov.itone.tasktracker.entity.User;
