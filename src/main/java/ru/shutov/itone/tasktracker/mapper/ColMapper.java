@@ -7,7 +7,9 @@ import ru.shutov.itone.tasktracker.entity.Col;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {TaskMapper.class})
+@Mapper(componentModel = "spring",
+        uses = {TaskMapper.class},
+        config = UnmappedPolicyMapperConfig.class)
 public interface ColMapper {
     Col toModel(ColDto colDto);
 
