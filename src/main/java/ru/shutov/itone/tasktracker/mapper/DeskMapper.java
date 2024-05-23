@@ -2,6 +2,7 @@ package ru.shutov.itone.tasktracker.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.shutov.itone.tasktracker.dto.get.CompleteDeskDto;
 import ru.shutov.itone.tasktracker.dto.get.DeskDto;
 import ru.shutov.itone.tasktracker.dto.post.DeskPostDto;
@@ -15,8 +16,9 @@ import java.util.UUID;
 @Mapper(componentModel = "spring",
         uses = {ColMapper.class, UserMapper.class},
         config = UnmappedPolicyMapperConfig.class)
-@RequiredArgsConstructor
 public abstract class DeskMapper {
+
+    @Autowired
     protected UserRepository userRepository;
 
     public abstract DeskDto toDto(Desk desk);
@@ -28,6 +30,9 @@ public abstract class DeskMapper {
     public abstract Desk toModel(DeskPostDto deskPostDto);
 
     public User mapUser(UUID id) {
+        if (id == null) {
+            return null;
+        }
         return userRepository.getReferenceById(id);
     }
 }

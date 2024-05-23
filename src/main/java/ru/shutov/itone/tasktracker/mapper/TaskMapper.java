@@ -2,12 +2,15 @@ package ru.shutov.itone.tasktracker.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.shutov.itone.tasktracker.dto.get.CompleteTaskDto;
 import ru.shutov.itone.tasktracker.dto.get.TaskDto;
 import ru.shutov.itone.tasktracker.dto.patch.TaskPatchDto;
 import ru.shutov.itone.tasktracker.dto.post.TaskPostDto;
 import ru.shutov.itone.tasktracker.entity.Col;
 import ru.shutov.itone.tasktracker.entity.Task;
+import ru.shutov.itone.tasktracker.exception.BusinessException;
+import ru.shutov.itone.tasktracker.exception.event.EventInfoImpl;
 import ru.shutov.itone.tasktracker.repository.ColRepository;
 import ru.shutov.itone.tasktracker.repository.TaskRepository;
 
@@ -17,9 +20,12 @@ import java.util.UUID;
 @Mapper(componentModel = "spring",
         uses = {UserMapper.class, CommentMapper.class},
         config = UnmappedPolicyMapperConfig.class)
-@RequiredArgsConstructor
 public abstract class TaskMapper {
+
+    @Autowired
     protected ColRepository colRepository;
+
+    @Autowired
     protected TaskRepository taskRepository;
 
     public abstract TaskDto toDto(Task task);
@@ -37,6 +43,9 @@ public abstract class TaskMapper {
     }
 
     public Task mapTask(UUID id) {
+        if (id == null) {
+            return null;
+        }
         return taskRepository.getReferenceById(id);
     }
 }

@@ -2,6 +2,7 @@ package ru.shutov.itone.tasktracker.mapper;
 
 import org.mapstruct.Mapper;
 import ru.shutov.itone.tasktracker.dto.get.ColDto;
+import ru.shutov.itone.tasktracker.dto.get.ShortColDto;
 import ru.shutov.itone.tasktracker.dto.post.ColPostDto;
 import ru.shutov.itone.tasktracker.entity.Col;
 
@@ -20,4 +21,6 @@ public interface ColMapper {
     List<ColDto> toDto(List<Col> cols);
 
     Col toModel(ColPostDto colPostDto);
+
+    List<ShortColDto> toShortColDto(List<Col> cols);
 }

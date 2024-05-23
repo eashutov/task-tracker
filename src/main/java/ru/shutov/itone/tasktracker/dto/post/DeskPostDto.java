@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class DeskPostDto {
-    @NotBlank
+    @NotBlank(message = "Название доски не должно быть пустым")
     private String name;
     private UUID creator;
 }

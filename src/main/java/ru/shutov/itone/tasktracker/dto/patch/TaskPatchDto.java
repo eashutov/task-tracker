@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class TaskPatchDto {
-    @NotBlank
+    @NotBlank(message = "Название задачи не должно быть пустым")
     private String name;
     private UUID col;
     private Priority priority;
