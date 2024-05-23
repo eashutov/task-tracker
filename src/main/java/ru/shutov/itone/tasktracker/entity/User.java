@@ -39,4 +39,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "creator")
     private List<Desk> desks;
+
+    @Column(name = "email")
+    private String email;
 }
