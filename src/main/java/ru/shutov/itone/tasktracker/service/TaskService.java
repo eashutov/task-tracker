@@ -13,7 +13,7 @@ import ru.shutov.itone.tasktracker.dto.request.StatusRequest;
 import ru.shutov.itone.tasktracker.dto.request.TaskRequest;
 import ru.shutov.itone.tasktracker.entity.Task;
 import ru.shutov.itone.tasktracker.exception.BusinessException;
-import ru.shutov.itone.tasktracker.exception.event.TaskEvent;
+import ru.shutov.itone.tasktracker.exception.event.EventInfoImpl;
 import ru.shutov.itone.tasktracker.mapper.TaskMapper;
 import ru.shutov.itone.tasktracker.repository.ColRepository;
 import ru.shutov.itone.tasktracker.repository.TaskRepository;
@@ -33,7 +33,7 @@ public class TaskService {
 
     public CompleteTaskDto findById(UUID id) {
         Task task = taskRepository.findById(id).orElseThrow(() ->
-                new BusinessException(TaskEvent.TASK_NOT_FOUND, "Task with id " + id + " not found"));
+                new BusinessException(EventInfoImpl.NOT_FOUND, "Task with id " + id + " not found"));
         return taskMapper.toCompleteDto(task);
     }
 
@@ -63,21 +63,21 @@ public class TaskService {
     @Transactional
     public void updateAssignee(UUID id, AssigneeRequest assigneeRequest) {
         Task task = taskRepository.findById(id).orElseThrow(() ->
-                new BusinessException(TaskEvent.TASK_NOT_FOUND, "Task with id " + id + " not found"));
+                new BusinessException(EventInfoImpl.NOT_FOUND, "Task with id " + id + " not found"));
         task.setAssignee(userRepository.getReferenceById(assigneeRequest.assignee()));
     }
 
     @Transactional
     public void updateStatus(UUID id, StatusRequest statusRequest) {
         Task task = taskRepository.findById(id).orElseThrow(() ->
-                new BusinessException(TaskEvent.TASK_NOT_FOUND, "Task with id " + id + " not found"));
+                new BusinessException(EventInfoImpl.NOT_FOUND, "Task with id " + id + " not found"));
         task.setStatus(statusRequest.status());
     }
 
     @Transactional
     public void updateCol(UUID id, ColRequest colRequest) {
         Task task = taskRepository.findById(id).orElseThrow(() ->
-                new BusinessException(TaskEvent.TASK_NOT_FOUND, "Task with id " + id + " not found"));
+                new BusinessException(EventInfoImpl.NOT_FOUND, "Task with id " + id + " not found"));
         task.setCol(colRepository.getReferenceById(colRequest.col()));
     }
 }

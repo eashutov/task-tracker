@@ -1,5 +1,7 @@
 package ru.shutov.itone.tasktracker.dto.request;
 
+import lombok.Builder;
+import lombok.Data;
 import ru.shutov.itone.tasktracker.enums.Priority;
 import ru.shutov.itone.tasktracker.enums.Status;
 import ru.shutov.itone.tasktracker.enums.TaskType;
@@ -7,13 +9,15 @@ import ru.shutov.itone.tasktracker.enums.TaskType;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-public record TaskRequest(
-        Priority priority,
-        UUID assignee,
-        Timestamp createdAtFrom,
-        Timestamp createdAtTo,
-        Status status,
-        UUID author,
-        TaskType taskType,
-        UUID epic
-) { }
+@Data
+@Builder
+public class TaskRequest {
+    private Priority priority;
+    private UUID assignee;
+    private Timestamp createdAtFrom;
+    private Timestamp createdAtTo;
+    private Status status;
+    private UUID author;
+    private TaskType taskType;
+    private UUID epic;
+}

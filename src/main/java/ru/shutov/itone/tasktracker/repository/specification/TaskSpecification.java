@@ -13,30 +13,33 @@ public class TaskSpecification {
     public static Specification<Task> specificationFor(TaskRequest taskRequest) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+            if (taskRequest == null) {
+                return null;
+            }
 
-            if (taskRequest.author() != null) {
-                predicates.add(cb.equal(root.get("author"), taskRequest.author()));
+            if (taskRequest.getAuthor() != null) {
+                predicates.add(cb.equal(root.get("author").get("id"), taskRequest.getAuthor()));
             }
-            if (taskRequest.assignee() != null) {
-                predicates.add(cb.equal(root.get("assignee"), taskRequest.assignee()));
+            if (taskRequest.getAssignee() != null) {
+                predicates.add(cb.equal(root.get("assignee").get("id"), taskRequest.getAssignee()));
             }
-            if (taskRequest.taskType() != null) {
-                predicates.add(cb.equal(root.get("taskType"), taskRequest.taskType()));
+            if (taskRequest.getTaskType() != null) {
+                predicates.add(cb.equal(root.get("taskType"), taskRequest.getTaskType()));
             }
-            if (taskRequest.priority() != null) {
-                predicates.add(cb.equal(root.get("priority"), taskRequest.priority()));
+            if (taskRequest.getPriority() != null) {
+                predicates.add(cb.equal(root.get("priority"), taskRequest.getPriority()));
             }
-            if (taskRequest.status() != null) {
-                predicates.add(cb.equal(root.get("status"), taskRequest.status()));
+            if (taskRequest.getStatus() != null) {
+                predicates.add(cb.equal(root.get("status"), taskRequest.getStatus()));
             }
-            if (taskRequest.epic() != null) {
-                predicates.add(cb.equal(root.get("epic"), taskRequest.epic()));
+            if (taskRequest.getEpic() != null) {
+                predicates.add(cb.equal(root.get("epic").get("id"), taskRequest.getEpic()));
             }
-            if (taskRequest.createdAtFrom() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("createdAt"), taskRequest.createdAtFrom()));
+            if (taskRequest.getCreatedAtFrom() != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("createdAt"), taskRequest.getCreatedAtFrom()));
             }
-            if (taskRequest.createdAtTo() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("createdAt"), taskRequest.createdAtTo()));
+            if (taskRequest.getCreatedAtTo() != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("createdAt"), taskRequest.getCreatedAtTo()));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
