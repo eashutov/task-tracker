@@ -1,6 +1,5 @@
 package ru.shutov.itone.tasktracker.mapper;
 
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.shutov.itone.tasktracker.dto.get.CompleteDeskDto;
