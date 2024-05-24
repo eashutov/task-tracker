@@ -1,10 +1,11 @@
 package ru.shutov.itone.tasktracker.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.shutov.itone.tasktracker.dto.get.DeskDto;
 import ru.shutov.itone.tasktracker.dto.get.CompleteDeskDto;
-import ru.shutov.itone.tasktracker.dto.post.ColPostDto;
+import ru.shutov.itone.tasktracker.dto.get.DeskDto;
 import ru.shutov.itone.tasktracker.dto.post.DeskPostDto;
 import ru.shutov.itone.tasktracker.service.DeskService;
 
@@ -17,29 +18,27 @@ import java.util.UUID;
 public class DeskController {
     private final DeskService deskService;
 
+    @Operation(summary = "Получение всех досок")
     @GetMapping
     public List<DeskDto> findAll() {
         return deskService.findAll();
     }
 
+    @Operation(summary = "Получение полной (включая все колонки и задачи в каждой) доски по ID")
     @GetMapping("/{id}")
     public CompleteDeskDto findDesk(@PathVariable("id") UUID id) {
         return deskService.findById(id);
     }
 
+    @Operation(summary = "Удаление доски по ID")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") UUID id) {
         deskService.deleteById(id);
     }
 
+    @Operation(summary = "Создание доски")
     @PostMapping
-    public void create(@RequestBody DeskPostDto deskPostDto) {
+    public void create(@RequestBody @Valid DeskPostDto deskPostDto) {
         deskService.create(deskPostDto);
-    }
-
-    @PostMapping("/{id}/col")
-    public void createCol(@PathVariable("id") UUID id,
-                          @RequestBody ColPostDto colPostDto) {
-        deskService.createCol(id, colPostDto);
     }
 }
