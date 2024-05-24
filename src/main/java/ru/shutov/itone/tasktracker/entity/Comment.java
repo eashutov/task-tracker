@@ -2,9 +2,7 @@ package ru.shutov.itone.tasktracker.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import ru.shutov.itone.tasktracker.model.BaseEntity;
 
 import java.sql.Timestamp;
@@ -14,6 +12,8 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Comment extends BaseEntity {
     @Column(name = "comment_text")
     @NotBlank
@@ -26,4 +26,8 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author", referencedColumnName = "id")
     private User author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task", referencedColumnName = "id")
+    private Task task;
 }
