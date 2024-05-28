@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.shutov.itone.tasktracker.dto.get.UserDto;
 import ru.shutov.itone.tasktracker.dto.post.AuthenticationDto;
@@ -29,6 +30,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationProvider authenticationProvider;
 
     public List<UserDto> findAll() {
@@ -58,6 +60,7 @@ public class UserService {
                     "User with username " + userPostDto.getUsername() + " already exists");
         }
         User user = userMapper.toModel(userPostDto);
+        user.setPassword(passwordEncoder.encode(userPostDto.getPassword()));
         userRepository.save(user);
         String token = jwtUtil.generateToken(user.getUsername());
         return new JwtResponse(token);
