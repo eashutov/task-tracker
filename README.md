@@ -10,7 +10,7 @@
 
 ### Схема базы данных
 
-![ER](assets/tt-security.png)
+![ER](assets/tt-security-github.png)
 
 ### Использованные технологии
 
