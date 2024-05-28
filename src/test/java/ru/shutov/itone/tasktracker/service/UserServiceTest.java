@@ -35,18 +35,15 @@ public class UserServiceTest {
 
     @Test
     void findAll_shouldReturnAllUserDtos() {
-        List<User> users = List.of(
-                User.builder()
-                        .firstName("Annie")
-                        .lastName("Loredo")
-                        .username("annieloredo")
-                        .build(),
-                User.builder()
-                        .firstName("Kenny")
-                        .lastName("Stern")
-                        .username("kenniest")
-                        .build()
-        );
+        User user1 = new User();
+        user1.setUsername("annieloredo");
+        user1.setFirstName("Annie");
+        user1.setLastName("Loredo");
+        User user2 = new User();
+        user2.setUsername("kenniest");
+        user2.setFirstName("Kenny");
+        user2.setLastName("Stern");
+        List<User> users = List.of(user1, user2);
 
         UserDto annie = new UserDto();
         annie.setFirstName(users.get(0).getFirstName());
@@ -142,7 +139,7 @@ public class UserServiceTest {
     void delete_shouldDeleteComment() {
         UUID id = UUID.randomUUID();
 
-        userService.delete(id);
+        userService.deleteById(id);
 
         verify(userRepository, times(1)).deleteById(id);
         verifyNoMoreInteractions(userRepository);

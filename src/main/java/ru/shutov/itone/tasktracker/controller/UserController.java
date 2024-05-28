@@ -1,12 +1,11 @@
 package ru.shutov.itone.tasktracker.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.shutov.itone.tasktracker.dto.get.UserDto;
-import ru.shutov.itone.tasktracker.dto.post.UserPostDto;
 import ru.shutov.itone.tasktracker.service.UserService;
 
 import java.util.List;
@@ -15,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class UserController {
     private final UserService userService;
 
@@ -30,17 +30,10 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @Operation(summary = "Добавление пользователя")
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody @Valid UserPostDto userPostDto) {
-        userService.create(userPostDto);
-    }
-
     @Operation(summary = "Удаление пользователя по ID")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable UUID id) {
-        userService.delete(id);
+    public void deleteById(@PathVariable UUID id) {
+        userService.deleteById(id);
     }
 }

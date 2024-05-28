@@ -8,7 +8,6 @@ import ru.shutov.itone.tasktracker.enums.Priority;
 import ru.shutov.itone.tasktracker.enums.Status;
 import ru.shutov.itone.tasktracker.enums.TaskType;
 
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
@@ -21,10 +20,7 @@ public class TaskPostDto {
     private Priority priority;
     private String description;
     private UUID assignee;
-    private Timestamp createdAt;
     private Status status;
-    @NotNull(message = "ID автора не может быть null")
-    private UUID author;
     private TaskType taskType;
     private UUID epic;
 }

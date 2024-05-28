@@ -40,8 +40,19 @@ public class ColService {
         Col col = colRepository.findById(id).orElseThrow(() ->
                 new BusinessException(EventInfoImpl.NOT_FOUND, "Col with id " + id + " not found"));
         Desk desk = col.getDesk();
-        colRepository.findColByDeskAndPosition(desk, position)
-                .ifPresent((column) -> column.setPosition(col.getPosition()));
+
+        List<Col> colsOrderedByPosition = colRepository.findByDeskOrderByPositionAsc(desk);
+        if (col.getPosition() > position) {
+            colsOrderedByPosition.stream()
+                    .skip(position)
+                    .limit(col.getPosition())
+                    .forEach((column) -> column.setPosition(column.getPosition() + 1));
+        } else {
+            colsOrderedByPosition.stream()
+                    .skip(col.getPosition())
+                    .limit(position)
+                    .forEach((column) -> column.setPosition(column.getPosition() - 1));
+        }
         col.setPosition(position);
     }
 
@@ -52,11 +63,13 @@ public class ColService {
         col.setName(colNameRequest.name());
     }
 
-
     @Transactional
     public void create(UUID id, ColPostDto colPostDto) {
         Col col = colMapper.toModel(colPostDto);
-        col.setDesk(deskRepository.getReferenceById(id));
+        Desk deskProxy = deskRepository.getReferenceById(id);
+        Integer maxPosition = colRepository.findMaxPositionByDeskId(deskProxy);
+        col.setPosition(maxPosition + 1);
+        col.setDesk(deskProxy);
         colRepository.save(col);
     }
 }

@@ -1,7 +1,10 @@
 package ru.shutov.itone.tasktracker.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.shutov.itone.tasktracker.enums.Priority;
 import ru.shutov.itone.tasktracker.enums.Status;
 import ru.shutov.itone.tasktracker.enums.TaskType;
@@ -14,12 +17,11 @@ import java.util.List;
 @Table(name = "tasks")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "col", referencedColumnName = "id")
+    @JoinColumn(name = "col", referencedColumnName = "id", nullable = false)
     private Col col;
 
     @Column(name = "priority")
@@ -33,7 +35,7 @@ public class Task extends NamedEntity {
     @JoinColumn(name = "assignee", referencedColumnName = "id")
     private User assignee;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false, nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp createdAt;
 
@@ -46,7 +48,7 @@ public class Task extends NamedEntity {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "author", referencedColumnName = "id")
+    @JoinColumn(name = "author", referencedColumnName = "id", updatable = false, nullable = false)
     private User author;
 
     @Column(name = "type")
@@ -57,6 +59,6 @@ public class Task extends NamedEntity {
     @JoinColumn(name = "epic", referencedColumnName = "id")
     private Task epic;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 }

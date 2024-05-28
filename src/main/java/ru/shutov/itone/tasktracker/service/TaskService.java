@@ -2,6 +2,8 @@ package ru.shutov.itone.tasktracker.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.shutov.itone.tasktracker.dto.get.CompleteTaskDto;
 import ru.shutov.itone.tasktracker.dto.get.TaskDto;
@@ -12,6 +14,7 @@ import ru.shutov.itone.tasktracker.dto.request.ColRequest;
 import ru.shutov.itone.tasktracker.dto.request.StatusRequest;
 import ru.shutov.itone.tasktracker.dto.request.TaskRequest;
 import ru.shutov.itone.tasktracker.entity.Task;
+import ru.shutov.itone.tasktracker.entity.User;
 import ru.shutov.itone.tasktracker.exception.BusinessException;
 import ru.shutov.itone.tasktracker.exception.event.EventInfoImpl;
 import ru.shutov.itone.tasktracker.mapper.TaskMapper;
@@ -19,7 +22,10 @@ import ru.shutov.itone.tasktracker.repository.ColRepository;
 import ru.shutov.itone.tasktracker.repository.TaskRepository;
 import ru.shutov.itone.tasktracker.repository.UserRepository;
 import ru.shutov.itone.tasktracker.repository.specification.TaskSpecification;
+import ru.shutov.itone.tasktracker.security.UserDetailsImpl;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,6 +51,12 @@ public class TaskService {
     @Transactional
     public void create(TaskPostDto taskPostDto) {
         Task task = taskMapper.toModel(taskPostDto);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
+
+        task.setCreatedAt(Timestamp.from(Instant.now()));
+        task.setAuthor(user);
         taskRepository.save(task);
     }
 
@@ -57,6 +69,7 @@ public class TaskService {
     public void update(UUID id, TaskPatchDto taskPatchDto) {
         Task task = taskMapper.toModel(taskPatchDto);
         task.setId(id);
+        task.setLastUpdate(Timestamp.from(Instant.now()));
         taskRepository.save(task);
     }
 
@@ -65,6 +78,7 @@ public class TaskService {
         Task task = taskRepository.findById(id).orElseThrow(() ->
                 new BusinessException(EventInfoImpl.NOT_FOUND, "Task with id " + id + " not found"));
         task.setAssignee(userRepository.getReferenceById(assigneeRequest.assignee()));
+        task.setLastUpdate(Timestamp.from(Instant.now()));
     }
 
     @Transactional
@@ -72,6 +86,7 @@ public class TaskService {
         Task task = taskRepository.findById(id).orElseThrow(() ->
                 new BusinessException(EventInfoImpl.NOT_FOUND, "Task with id " + id + " not found"));
         task.setStatus(statusRequest.status());
+        task.setLastUpdate(Timestamp.from(Instant.now()));
     }
 
     @Transactional
@@ -79,5 +94,6 @@ public class TaskService {
         Task task = taskRepository.findById(id).orElseThrow(() ->
                 new BusinessException(EventInfoImpl.NOT_FOUND, "Task with id " + id + " not found"));
         task.setCol(colRepository.getReferenceById(colRequest.col()));
+        task.setLastUpdate(Timestamp.from(Instant.now()));
     }
 }

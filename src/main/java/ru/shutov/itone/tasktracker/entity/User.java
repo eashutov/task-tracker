@@ -1,20 +1,34 @@
 package ru.shutov.itone.tasktracker.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.shutov.itone.tasktracker.model.BaseEntity;
 
 import java.util.List;
 
+@NamedEntityGraph(
+        name = "user-with-memberships",
+        attributeNodes = {
+                @NamedAttributeNode(value = "memberships", subgraph = "desk")
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "desk",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "desk")
+                        }
+                )
+        }
+)
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends BaseEntity {
@@ -42,4 +56,11 @@ public class User extends BaseEntity {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
+    @NotNull
+    private String password;
+
+    @OneToMany(mappedBy = "member")
+    private List<Membership> memberships;
 }
