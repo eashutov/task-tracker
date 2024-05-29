@@ -17,6 +17,7 @@ import ru.shutov.itone.tasktracker.mapper.ColMapper;
 import ru.shutov.itone.tasktracker.repository.ColRepository;
 import ru.shutov.itone.tasktracker.repository.DeskRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,6 +48,7 @@ public class ColServiceTest {
 
         when(colMapper.toModel(dto)).thenReturn(col);
         when(deskRepository.getReferenceById(deskId)).thenReturn(desk);
+        when(colRepository.findMaxPositionByDeskId(desk)).thenReturn(3);
 
         colService.create(deskId, dto);
 
@@ -97,7 +99,7 @@ public class ColServiceTest {
     }
 
     @Test
-    void updatePosition_shouldUpdateSwapColPositions() {
+    void updatePosition_shouldUpdateColPositions() {
         UUID id = UUID.randomUUID();
         int position = 1;
         ColPositionRequest request = new ColPositionRequest(position);
@@ -109,12 +111,12 @@ public class ColServiceTest {
         colWithPosition.setPosition(position);
 
         when(colRepository.findById(id)).thenReturn(Optional.of(col));
-        when(colRepository.findColByDeskAndPosition(desk, position)).thenReturn(Optional.of(colWithPosition));
+        when(colRepository.findByDeskOrderByPositionAsc(desk)).thenReturn(List.of(col, colWithPosition));
 
         colService.updatePosition(id, request);
 
         verify(colRepository, times(1)).findById(id);
-        verify(colRepository, times(1)).findColByDeskAndPosition(desk, position);
+        verify(colRepository, times(1)).findByDeskOrderByPositionAsc(desk);
         verifyNoMoreInteractions(colRepository);
     }
 

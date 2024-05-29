@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 public class ColPostDto {
     @NotBlank(message = "Название колонки не должно быть пустым")
     private String name;
-    private Integer position;
 }

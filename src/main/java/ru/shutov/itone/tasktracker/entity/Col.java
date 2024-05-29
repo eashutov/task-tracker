@@ -1,7 +1,10 @@
 package ru.shutov.itone.tasktracker.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.shutov.itone.tasktracker.model.NamedEntity;
 
 import java.util.List;
@@ -10,12 +13,11 @@ import java.util.List;
 @Table(name = "cols")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Col extends NamedEntity {
     @ManyToOne
-    @JoinColumn(name = "desk", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "desk", referencedColumnName = "id", updatable = false, nullable = false)
     private Desk desk;
 
     @Column(name = "position")

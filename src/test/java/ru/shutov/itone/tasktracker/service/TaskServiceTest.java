@@ -92,12 +92,10 @@ public class TaskServiceTest {
 
     @Test
     void findByRequest_shouldReturnTasksWithSpecification() {
-        List<Task> tasks = List.of(
-                Task.builder()
-                        .taskType(TaskType.TASK)
-                        .priority(Priority.CRITICAL)
-                        .build()
-        );
+        Task task = new Task();
+        task.setTaskType(TaskType.TASK);
+        task.setPriority(Priority.CRITICAL);
+        List<Task> tasks = List.of(task);
         TaskDto dto = new TaskDto();
         dto.setTaskType(TaskType.TASK);
         dto.setPriority(Priority.CRITICAL);
@@ -159,20 +157,18 @@ public class TaskServiceTest {
 
     @Test
     void findByRequest_shouldReturnAllTasks_TaskRequestFieldsIsNull() {
-        List<Task> tasks = List.of(
-                Task.builder()
-                        .taskType(TaskType.TASK)
-                        .priority(Priority.CRITICAL)
-                        .build(),
-                Task.builder()
-                        .taskType(TaskType.BUG)
-                        .priority(Priority.BLOCKER)
-                        .build(),
-                Task.builder()
-                        .taskType(TaskType.EPIC)
-                        .priority(Priority.MAJOR)
-                        .build()
-        );
+        Task task1 = new Task();
+        task1.setTaskType(TaskType.TASK);
+        task1.setPriority(Priority.CRITICAL);
+
+        Task task2 = new Task();
+        task2.setTaskType(TaskType.BUG);
+        task2.setPriority(Priority.BLOCKER);
+
+        Task task3 = new Task();
+        task3.setTaskType(TaskType.EPIC);
+        task3.setPriority(Priority.MAJOR);
+        List<Task> tasks = List.of(task1, task2, task3);
         TaskDto task = new TaskDto();
         task.setTaskType(TaskType.TASK);
         task.setPriority(Priority.CRITICAL);

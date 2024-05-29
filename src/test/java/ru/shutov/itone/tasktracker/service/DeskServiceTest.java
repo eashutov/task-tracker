@@ -44,14 +44,11 @@ public class DeskServiceTest {
         User tony = new User();
         UserDto tonyDto = new UserDto();
         tonyDto.setUsername("tony");
-        List<Desk> desks = List.of(
-                Desk.builder()
-                        .creator(kenny)
-                        .build(),
-                Desk.builder()
-                        .creator(tony)
-                        .build()
-        );
+        Desk desk1 = new Desk();
+        desk1.setCreator(kenny);
+        Desk desk2 = new Desk();
+        desk2.setCreator(tony);
+        List<Desk> desks = List.of(desk1, desk2);
         DeskDto deskDtoKenny = new DeskDto();
         deskDtoKenny.setCreator(kennyDto);
         DeskDto deskDtoTony = new DeskDto();

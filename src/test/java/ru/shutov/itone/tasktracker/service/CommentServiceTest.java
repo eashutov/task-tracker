@@ -44,7 +44,7 @@ class CommentServiceTest {
         CommentPostDto commentPostDto = new CommentPostDto();
         Comment comment = new Comment();
         when(commentMapper.toModel(commentPostDto)).thenReturn(comment);
-        when(taskRepository.getReferenceById(taskId)).thenReturn(task);
+        when(taskRepository.findById(taskId)).thenReturn(Optional.of(task));
 
         commentService.post(taskId, commentPostDto);
 

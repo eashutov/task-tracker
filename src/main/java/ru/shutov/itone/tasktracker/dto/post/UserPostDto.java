@@ -19,4 +19,7 @@ public class UserPostDto {
     @Email(message = "Некорректный email")
     @NotNull(message = "Email не должен быть null")
     private String email;
+
+    @NotNull
+    private String password;
 }

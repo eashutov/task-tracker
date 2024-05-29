@@ -1,7 +1,10 @@
 package ru.shutov.itone.tasktracker.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.shutov.itone.tasktracker.model.NamedEntity;
 
 import java.util.List;
@@ -26,14 +29,16 @@ import java.util.List;
 @Table(name = "desks")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Desk extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "creator", referencedColumnName = "id", updatable = false, nullable = false)
     private User creator;
 
     @OneToMany(mappedBy = "desk")
     private List<Col> cols;
+
+    @OneToMany(mappedBy = "desk")
+    private List<Membership> memberships;
 }

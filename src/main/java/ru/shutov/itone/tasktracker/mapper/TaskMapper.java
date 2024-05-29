@@ -36,6 +36,9 @@ public abstract class TaskMapper {
     public abstract Task toModel(TaskPatchDto taskPatchDto);
 
     public Col mapCol(UUID id) {
+        if (id == null) {
+            return null;
+        }
         return colRepository.getReferenceById(id);
     }
 

@@ -1,6 +1,7 @@
 package ru.shutov.itone.tasktracker.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/desk")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class DeskController {
     private final DeskService deskService;
 

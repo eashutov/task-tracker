@@ -14,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CompleteTaskDto {
     private UUID id;
+    private ShortColDto col;
     private String name;
     private Priority priority;
     private String description;
