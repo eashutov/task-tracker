@@ -3,7 +3,7 @@ package ru.shutov.itone.tasktracker.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +31,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationManager authenticationManager;
 
     public List<UserDto> findAll() {
         return userMapper.toDto(userRepository.findAll());
@@ -70,7 +70,7 @@ public class UserService {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authenticationDto.getUsername(),
                         authenticationDto.getPassword());
-        authenticationProvider.authenticate(authenticationToken);
+        authenticationManager.authenticate(authenticationToken);
         String token = jwtUtil.generateToken(authenticationDto.getUsername());
         return new JwtResponse(token);
     }
